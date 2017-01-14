@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="tianqi"/>
+    <version value="1"/>
+    <list>
+        <mapping class="com.haige.taiyangdabo.tianqi.db.Province"></mapping>
+        <mapping class="com.haige.taiyangdabo.tianqi.db.City"></mapping>
+        <mapping class="com.haige.taiyangdabo.tianqi.db.County"></mapping>
+    </list>
+</litepal>
