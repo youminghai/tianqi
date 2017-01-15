@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseareaActivity extends AppCompatActivity implements AdapterView
-        .OnItemClickListener {
+        .OnItemClickListener, View.OnClickListener {
 
     private static final int LEVEL_PROVINCE = 1;//省级数据
     private static final int LEVEL_CITY = 2;//市级数据
@@ -66,6 +66,7 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
         lvArea.setAdapter(adaper);
 
         lvArea.setOnItemClickListener(this);
+        btnBack.setOnClickListener(this);
 
         queryProvince();//从服务器查询省级数据
 
@@ -240,5 +241,30 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
             progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_back:
+                if(selectLevel==LEVEL_CITY){
+                    queryProvince();
+                }else if(selectLevel==LEVEL_COUNTY){
+                    queryCity();
+                }
+                break;
+            default:
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(selectLevel==LEVEL_CITY){
+            queryProvince();
+        }else if(selectLevel==LEVEL_COUNTY){
+            queryCity();
+        }else if (selectLevel==LEVEL_PROVINCE){
+            finish();
+        }
     }
 }
