@@ -1,13 +1,15 @@
-package db;
+package com.haige.taiyangdabo.tianqi.db;
+
+import org.litepal.crud.DataSupport;
 
 /**
  * Created by Administrator on 2017 2017/1/14 16:23.
  * DESC: 表 Province  的模型
  */
 
-public class Province {
+public class Province extends DataSupport{
     private int id;//id
-    private String provinceCode;//省代号
+    private int provinceCode;//省代号
     private String provinceName;//省名字
 
     public int getId() {
@@ -18,11 +20,11 @@ public class Province {
         this.id = id;
     }
 
-    public String getProvinceCode() {
+    public int getProvinceCode() {
         return provinceCode;
     }
 
-    public void setProvinceCode(String provinceCode) {
+    public void setProvinceCode(int provinceCode) {
         this.provinceCode = provinceCode;
     }
 

@@ -1,15 +1,17 @@
-package db;
+package com.haige.taiyangdabo.tianqi.db;
+
+import org.litepal.crud.DataSupport;
 
 /**
  * Created by Administrator on 2017 2017/1/14 17:51.
  * DESC: 表 City  的模型
  */
 
-public class City {
+public class City extends DataSupport{
     private int id;
-    private String cityCode;
+    private int cityCode;
     private String cityName;
-    private String provinceCode;
+    private int provinceId;
 
     public int getId() {
         return id;
@@ -19,12 +21,12 @@ public class City {
         this.id = id;
     }
 
-    public String getProvinceCode() {
-        return provinceCode;
+    public int getProvinceId() {
+        return provinceId;
     }
 
-    public void setProvinceCode(String provinceCode) {
-        this.provinceCode = provinceCode;
+    public void setProvinceId(int provinceId) {
+        this.provinceId = provinceId;
     }
 
     public String getCityName() {
@@ -35,11 +37,11 @@ public class City {
         this.cityName = cityName;
     }
 
-    public String getCityCode() {
+    public int getCityCode() {
         return cityCode;
     }
 
-    public void setCityCode(String cityCode) {
+    public void setCityCode(int cityCode) {
         this.cityCode = cityCode;
     }
 }
