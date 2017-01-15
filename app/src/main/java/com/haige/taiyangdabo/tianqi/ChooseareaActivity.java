@@ -24,6 +24,8 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.key;
+
 public class ChooseareaActivity extends AppCompatActivity implements AdapterView
         .OnItemClickListener, View.OnClickListener {
 
@@ -79,24 +81,27 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (selectLevel == LEVEL_PROVINCE) {
             selectProvince = provinceList.get(position);
-            Toast.makeText(ChooseareaActivity.this,"省级级别",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChooseareaActivity.this, "省级级别", Toast.LENGTH_SHORT).show();
             queryCity();
         } else if (selectLevel == LEVEL_CITY) {
             selectCity = cityList.get(position);
-            Toast.makeText(ChooseareaActivity.this,"市级级别",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChooseareaActivity.this, "市级级别", Toast.LENGTH_SHORT).show();
             queryCounty();
         } else if (selectLevel == LEVEL_COUNTY) {
             selectCounty = countyList.get(position);
-            Toast.makeText(ChooseareaActivity.this,"县级级别",Toast.LENGTH_SHORT).show();
-            queryWeather(selectCounty.getCountyName());
+            Toast.makeText(ChooseareaActivity.this, "县级级别=="+selectCounty.getCountyName(), Toast.LENGTH_SHORT).show();
+            queryWeather(selectCounty);
         }
     }
 
     /**
      * 查询天气
      */
-    private void queryWeather(String areaName) {
-        queryFromServer("url","weather");
+    private void queryWeather(County selectCounty) {
+        Log.d(TAG, "queryWeather: ==="+Global.SERVER_WEATHER + selectCounty.getWeatherId() + "&key=" + Global
+                .KEY);
+        queryFromServer(Global.SERVER_WEATHER + selectCounty.getWeatherId() + "&key=" + Global
+                .KEY, "weather");
     }
 
     /**
@@ -120,7 +125,7 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
             selectLevel = LEVEL_PROVINCE;
         } else {
             //从本地数据库中查询不到省级数据,则从服务器查询省级数据
-            Log.d(TAG, "queryProvince: "+Global.SERVER_ROOT);
+            Log.d(TAG, "queryProvince: " + Global.SERVER_ROOT);
             queryFromServer(Global.SERVER_ROOT, "province");
         }
     }
@@ -142,7 +147,7 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
             lvArea.setSelection(0);
             selectLevel = LEVEL_CITY;
         } else {
-            Log.d(TAG, "queryCity: "+Global.SERVER_ROOT+selectProvince.getProvinceCode());
+            Log.d(TAG, "queryCity: " + Global.SERVER_ROOT + selectProvince.getProvinceCode());
             queryFromServer(Global.SERVER_ROOT + selectProvince.getProvinceCode(), "city");
         }
     }
@@ -164,7 +169,8 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
             lvArea.setSelection(0);
             selectLevel = LEVEL_COUNTY;
         } else {
-            Log.d(TAG, "queryCounty: "+Global.SERVER_ROOT + selectProvince.getProvinceCode() + "/" +
+            Log.d(TAG, "queryCounty: " + Global.SERVER_ROOT + selectProvince.getProvinceCode() +
+                    "/" +
                     selectCity.getCityCode());
             queryFromServer(Global.SERVER_ROOT + selectProvince.getProvinceCode() + "/" +
                     selectCity.getCityCode(), "county");
@@ -193,8 +199,9 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
                     Log.d(TAG, "处理县级数据");
                     result = Utility.handlerCountiesResponse(response, selectCity
                             .getCityCode());
-                }else if("weather".equals(type)){
-
+                } else if ("weather".equals(type)) {
+                    Log.d(TAG, "查询天气=="+response);
+                    result = Utility.handlerWeatherResponse(response);
                 }
 
                 if (result) {
@@ -245,11 +252,11 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_back:
-                if(selectLevel==LEVEL_CITY){
+                if (selectLevel == LEVEL_CITY) {
                     queryProvince();
-                }else if(selectLevel==LEVEL_COUNTY){
+                } else if (selectLevel == LEVEL_COUNTY) {
                     queryCity();
                 }
                 break;
@@ -259,11 +266,11 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onBackPressed() {
-        if(selectLevel==LEVEL_CITY){
+        if (selectLevel == LEVEL_CITY) {
             queryProvince();
-        }else if(selectLevel==LEVEL_COUNTY){
+        } else if (selectLevel == LEVEL_COUNTY) {
             queryCity();
-        }else if (selectLevel==LEVEL_PROVINCE){
+        } else if (selectLevel == LEVEL_PROVINCE) {
             finish();
         }
     }

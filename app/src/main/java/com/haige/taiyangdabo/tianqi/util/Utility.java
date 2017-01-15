@@ -7,9 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
 import com.haige.taiyangdabo.tianqi.db.City;
 import com.haige.taiyangdabo.tianqi.db.County;
 import com.haige.taiyangdabo.tianqi.db.Province;
+import com.haige.taiyangdabo.tianqi.gson.HeWeather;
 
 /**
  * Created by Administrator on 2017 2017/1/14 19:28.
@@ -17,7 +19,7 @@ import com.haige.taiyangdabo.tianqi.db.Province;
  */
 
 public class Utility {
-    public static final String TAG="Utility";
+    public static final String TAG = "Utility";
 
     /**
      * 解析服务器返回的省数据，并将其保存在数据库中
@@ -78,7 +80,7 @@ public class Utility {
      */
     public static boolean handlerCountiesResponse(String response, int cityId) {
         try {
-            Log.d(TAG, "handlerCountiesResponse: "+response);
+            Log.d(TAG, "handlerCountiesResponse: " + response);
             JSONArray jsonArray = new JSONArray(response);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -90,6 +92,20 @@ public class Utility {
                 county.save();
             }
             return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public static boolean handlerWeatherResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            JSONObject heWeather = jsonArray.getJSONObject(0);
+            Gson gson=new Gson();
+            HeWeather weather = gson.fromJson(heWeather.toString(), HeWeather.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }
