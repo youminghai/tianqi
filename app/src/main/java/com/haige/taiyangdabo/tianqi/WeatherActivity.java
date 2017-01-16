@@ -7,12 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.haige.taiyangdabo.tianqi.global.Global;
 import com.haige.taiyangdabo.tianqi.gson.DailyForecast;
 import com.haige.taiyangdabo.tianqi.gson.HeWeather;
@@ -54,6 +53,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView tvUv;
     private SharedPreferences pref;
     private TextView tvWind;
+    private ImageView ivBing;//每日必应一图
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class WeatherActivity extends AppCompatActivity {
         supportRequestWindowFeature(1);
         setContentView(R.layout.activity_weather);
 
+        ivBing = (ImageView) findViewById(R.id.iv_bing);
         tvTitle = (TextView) findViewById(R.id.tv_weather_title);
         tvUpdateTime = (TextView) findViewById(R.id.tv_weather_update_time);
 
@@ -89,6 +90,7 @@ public class WeatherActivity extends AppCompatActivity {
         pref = PreferenceManager
                 .getDefaultSharedPreferences(WeatherActivity.this);
         String weatherData = pref.getString("weather_data", null);
+        String bing_pic = pref.getString("bing_pic", null);
         if (weatherData != null) {
             HeWeather weather = Utility.handlerWeatherResponse(weatherData);
             showWeathre(weather);
@@ -97,6 +99,35 @@ public class WeatherActivity extends AppCompatActivity {
             //查询天气
             queryWeather(weatherId);
         }
+        if (bing_pic != null) {
+            Glide.with(WeatherActivity.this).load(bing_pic).into(ivBing);
+        } else {
+            loadBingPic();
+        }
+    }
+
+    /**
+     * 加载必应每日一图
+     */
+    private void loadBingPic() {
+        HttpUtils.sendRequestWithOKHttp(Global.SERVER_BING, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPic = response.body().string();
+                pref.edit().putString("bing_pic", bingPic).apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(WeatherActivity.this).load(bingPic).into(ivBing);
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -133,6 +164,7 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
+        loadBingPic();
     }
 
     private void showWeathre(HeWeather weather) {
@@ -156,7 +188,7 @@ public class WeatherActivity extends AppCompatActivity {
             tvUpdateTime.setText(loc.substring(loc.length() - 5) + " 更新");
             tvTmp.setText(tmp + "°");
             tvCond.setText(txt);
-            tvWind.setText(dir+"  风力："+sc+"  风速："+spd+"kmph");
+            tvWind.setText(dir + "  风力：" + sc + "  风速：" + spd + "kmph");
             tvForecast.setText("未来" + dailyForecastList.size() + "天预报");
 
             for (DailyForecast dailyForecast : dailyForecastList) {
@@ -169,8 +201,8 @@ public class WeatherActivity extends AppCompatActivity {
                 TextView tvMinTmp = (TextView) view.findViewById(R.id.tv_weather_min_tmp);
                 tvDate.setText(dailyForecast.date);
                 tvCondd.setText(dailyForecast.cond.txt_d);
-                tvMaxTmp.setText(dailyForecast.tmp.max);
-                tvMinTmp.setText(dailyForecast.tmp.min);
+                tvMaxTmp.setText(dailyForecast.tmp.max + "°");
+                tvMinTmp.setText(dailyForecast.tmp.min + "°");
 
                 llForecast.addView(view);
             }

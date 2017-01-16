@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="中国"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="22sp"/>
     <TextView
         android:id="@+id/tv_weather_update_time"
@@ -18,7 +18,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
         android:text="shijian"
-        android:textColor="#000"
+        android:textColor="#fff"
         android:textSize="18sp"/>
 
 </RelativeLayout>

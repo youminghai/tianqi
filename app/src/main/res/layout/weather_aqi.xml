@@ -15,12 +15,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="空气质量："
+            android:textColor="#fff"
             android:textSize="22sp"/>
         <TextView
             android:id="@+id/tv_qlty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="轻度污染"
+            android:textColor="#fff"
             android:textSize="16sp"/>
     </LinearLayout>
 
@@ -40,12 +42,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="59"
+                android:textColor="#fff"
                 android:textSize="50sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="AQI"
+                android:textColor="#fff"
                 android:textSize="18sp"/>
         </LinearLayout>
 
@@ -60,12 +64,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="439"
+                android:textColor="#fff"
                 android:textSize="50sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="PM10指数"
+                android:textColor="#fff"
                 android:textSize="18sp"/>
         </LinearLayout>
         <LinearLayout
@@ -79,12 +85,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="59"
+                android:textColor="#fff"
                 android:textSize="50sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="PM25指数"
+                android:textColor="#fff"
                 android:textSize="18sp"/>
         </LinearLayout>
     </LinearLayout>
