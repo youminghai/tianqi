@@ -6,53 +6,53 @@ package com.haige.taiyangdabo.tianqi.gson;
  * DESC:生活指数
  */
 public class Suggestion {
-    Air air;//
-    Comf comf;//舒适度指数
-    CW cw;//洗车指数
-    Drsg drsg;//穿衣指数
-    Flu flu;//感冒指数
-    Sport sport;//运动指数
-    Trav trav;//旅游指数
-    UV uv;//紫外线指数
+    public Air air;//
+    public Comf comf;//舒适度指数
+    public CW cw;//洗车指数
+    public Drsg drsg;//穿衣指数
+    public Flu flu;//感冒指数
+    public Sport sport;//运动指数
+    public Trav trav;//旅游指数
+    public UV uv;//紫外线指数
 
-    private class Air {
-        String brf;//简介
-        String txt;//详细描述
+    public class Air {
+        public String brf;//简介
+        public String txt;//详细描述
     }
 
-    private class Comf {
-        String brf;
-        String txt;
+    public class Comf {
+        public String brf;
+        public String txt;
     }
 
 
-    private class CW {
-        String brf;
-        String txt;
+    public class CW {
+        public String brf;
+        public String txt;
     }
 
-    private class Drsg {
-        String brf;
-        String txt;
+    public class Drsg {
+        public String brf;
+        public String txt;
     }
 
-    private class Flu {
-        String brf;
-        String txt;
+    public class Flu {
+        public String brf;
+        public String txt;
     }
 
-    private class Sport {
-        String brf;
-        String txt;
+    public class Sport {
+        public String brf;
+        public String txt;
     }
 
-    private class Trav {
-        String brf;
-        String txt;
+    public class Trav {
+        public String brf;
+        public String txt;
     }
 
-    private class UV {
-        String brf;
-        String txt;
+    public class UV {
+        public String brf;
+        public String txt;
     }
 }

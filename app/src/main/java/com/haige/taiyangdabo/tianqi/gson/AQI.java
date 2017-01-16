@@ -7,11 +7,11 @@ package com.haige.taiyangdabo.tianqi.gson;
 public class AQI {
     public City city;
 
-    class City {
-        String aqi;//空气质量指数
-        String pm10;//pm10指数
-        String pm25;//pm25指数
-        String qlty;//污染指数
+    public class City {
+        public String aqi;//空气质量指数
+        public String pm10;//pm10指数
+        public String pm25;//pm25指数
+        public String qlty;//污染指数
     }
 }
 

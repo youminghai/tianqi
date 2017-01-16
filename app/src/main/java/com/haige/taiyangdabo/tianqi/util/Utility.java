@@ -99,16 +99,18 @@ public class Utility {
     }
 
 
-    public static boolean handlerWeatherResponse(String response) {
+    public static HeWeather handlerWeatherResponse(String weatherId) {
         try {
-            JSONObject jsonObject = new JSONObject(response);
+            JSONObject jsonObject = new JSONObject(weatherId);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             JSONObject heWeather = jsonArray.getJSONObject(0);
             Gson gson=new Gson();
+            Log.d(TAG, "heWeather.toString(): ==="+heWeather.toString());
             HeWeather weather = gson.fromJson(heWeather.toString(), HeWeather.class);
+            return weather;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }

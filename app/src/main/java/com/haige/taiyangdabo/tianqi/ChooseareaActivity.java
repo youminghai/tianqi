@@ -1,7 +1,10 @@
 package com.haige.taiyangdabo.tianqi;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +27,6 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.key;
 
 public class ChooseareaActivity extends AppCompatActivity implements AdapterView
         .OnItemClickListener, View.OnClickListener {
@@ -40,7 +42,7 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
 
     private Province selectProvince;//选中的省
     private City selectCity;//选中的市
-    private County selectCounty;//选中的县
+    County selectCounty;//选中的县
     private int selectLevel;//选中数据的级别
 
     private TextView tvTitle;
@@ -56,6 +58,16 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(1);
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(ChooseareaActivity.this);
+        String weatherData = pref.getString("weather_data", null);
+        if (weatherData != null) {
+            startActivity(new Intent(ChooseareaActivity.this, WeatherActivity.class));
+            finish();
+        }
+
+
         setContentView(R.layout.activity_choose_area);
 
         tvTitle = (TextView) findViewById(R.id.tv_title);
@@ -89,19 +101,11 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
             queryCounty();
         } else if (selectLevel == LEVEL_COUNTY) {
             selectCounty = countyList.get(position);
-            Toast.makeText(ChooseareaActivity.this, "县级级别=="+selectCounty.getCountyName(), Toast.LENGTH_SHORT).show();
-            queryWeather(selectCounty);
+            Intent intent = new Intent(ChooseareaActivity.this, WeatherActivity.class);
+            intent.putExtra("weather_id", selectCounty.getWeatherId());
+            startActivity(intent);
+            finish();
         }
-    }
-
-    /**
-     * 查询天气
-     */
-    private void queryWeather(County selectCounty) {
-        Log.d(TAG, "queryWeather: ==="+Global.SERVER_WEATHER + selectCounty.getWeatherId() + "&key=" + Global
-                .KEY);
-        queryFromServer(Global.SERVER_WEATHER + selectCounty.getWeatherId() + "&key=" + Global
-                .KEY, "weather");
     }
 
     /**
@@ -199,9 +203,6 @@ public class ChooseareaActivity extends AppCompatActivity implements AdapterView
                     Log.d(TAG, "处理县级数据");
                     result = Utility.handlerCountiesResponse(response, selectCity
                             .getCityCode());
-                } else if ("weather".equals(type)) {
-                    Log.d(TAG, "查询天气=="+response);
-                    result = Utility.handlerWeatherResponse(response);
                 }
 
                 if (result) {
