@@ -111,6 +111,12 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
 
         btnHome.setOnClickListener(this);
 
+        if (bing_pic != null) {
+            Glide.with(WeatherActivity.this).load(bing_pic).into(ivBing);
+        } else {
+            loadBingPic();
+        }
+
         if (weatherData != null) {
             HeWeather weather = Utility.handlerWeatherResponse(weatherData);
             showWeathre(weather);
@@ -118,11 +124,7 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
             //查询天气
             queryWeather(weatherId);
         }
-        if (bing_pic != null) {
-            Glide.with(WeatherActivity.this).load(bing_pic).into(ivBing);
-        } else {
-            loadBingPic();
-        }
+
 
         //设置下拉刷新时，环状进度条的颜色渐变
         swipeRefreshLayout.setColorSchemeResources(
@@ -180,6 +182,8 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
      * @param weatherId 天气id
      */
     public void queryWeather(final String weatherId) {
+        loadBingPic();
+
         String address = Global.SERVER_WEATHER + weatherId + "&key=" + Global
                 .KEY;
 
@@ -213,7 +217,6 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
                 });
             }
         });
-        loadBingPic();
     }
 
     private void showWeathre(HeWeather weather) {
