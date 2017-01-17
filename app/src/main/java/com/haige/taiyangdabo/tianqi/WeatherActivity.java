@@ -1,5 +1,6 @@
 package com.haige.taiyangdabo.tianqi;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.haige.taiyangdabo.tianqi.global.Global;
 import com.haige.taiyangdabo.tianqi.gson.DailyForecast;
 import com.haige.taiyangdabo.tianqi.gson.HeWeather;
+import com.haige.taiyangdabo.tianqi.service.AutoUpdateService;
 import com.haige.taiyangdabo.tianqi.util.HttpUtils;
 import com.haige.taiyangdabo.tianqi.util.Utility;
 
@@ -305,6 +307,8 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
             tvUv.setText("紫外线指数:   " + weather.suggestion.uv.brf + "\n" + "   " + weather
                     .suggestion.uv
                     .txt);
+
+            startService(new Intent(WeatherActivity.this, AutoUpdateService.class));
         } else {
             Toast.makeText(WeatherActivity.this, "获取天气信息失败,接口不ok", Toast.LENGTH_SHORT).show();
         }
