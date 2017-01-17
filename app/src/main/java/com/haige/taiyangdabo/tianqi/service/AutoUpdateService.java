@@ -71,7 +71,7 @@ public class AutoUpdateService extends Service {
     private void updateWeather() {
         SharedPreferences pref = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        String wether_data = pref.getString("wether_data", null);
+        String wether_data = pref.getString("weather_data", null);
         HeWeather weather = Utility.handlerWeatherResponse(wether_data);
         String weatherId = weather.basic.id;
         String address = Global.SERVER_WEATHER + weatherId + "&key=" + Global

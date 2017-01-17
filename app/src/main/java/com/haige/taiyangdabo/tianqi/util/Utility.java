@@ -99,9 +99,9 @@ public class Utility {
     }
 
 
-    public static HeWeather handlerWeatherResponse(String weatherId) {
+    public static HeWeather handlerWeatherResponse(String weatherData) {
         try {
-            JSONObject jsonObject = new JSONObject(weatherId);
+            JSONObject jsonObject = new JSONObject(weatherData);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             JSONObject heWeather = jsonArray.getJSONObject(0);
             Gson gson=new Gson();

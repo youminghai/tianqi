@@ -308,7 +308,7 @@ public class WeatherActivity extends AppCompatActivity implements View.OnClickLi
                     .suggestion.uv
                     .txt);
 
-            startService(new Intent(WeatherActivity.this, AutoUpdateService.class));
+            startService(new Intent(this, AutoUpdateService.class));
         } else {
             Toast.makeText(WeatherActivity.this, "获取天气信息失败,接口不ok", Toast.LENGTH_SHORT).show();
         }
